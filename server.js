@@ -21,11 +21,15 @@ app.post('/control', (req, res) => {
 
 // Endpoint for the ESP8266 to fetch the latest command
 app.get('/commands', (req, res) => {
+  console.log('Received request for /commands');
+  
   if (commandQueue.length > 0) {
     const nextCommand = commandQueue.shift(); // Remove and return the oldest command
+    console.log('Sending command:', nextCommand);
     res.json({ command: nextCommand });
   } else {
-    res.json({ command: null }); // No commands in queue
+    console.log('No commands in queue');
+    res.status(200).json({ command: null }); // No commands in queue
   }
 });
 
